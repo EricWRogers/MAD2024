@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import java.util.Random
 
@@ -60,6 +61,12 @@ class MainActivity : AppCompatActivity() {
     fun updateScoreText()
     {
         var scoreText = findViewById<TextView>(R.id.score_text);
+        var winImage = findViewById<ImageView>(R.id.win_image);
+
+        if (score >= 5)
+            winImage.visibility = View.VISIBLE;
+        else
+            winImage.visibility = View.INVISIBLE;
 
         scoreText.text = "Score: $score";
     }
