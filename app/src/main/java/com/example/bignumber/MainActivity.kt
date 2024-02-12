@@ -23,11 +23,23 @@ class MainActivity : AppCompatActivity() {
 
     fun leftButtonOnClick(view: View)
     {
+        if (leftNum > rightNum)
+            score++;
+        else
+            score--;
+
+        updateScoreText();
         pickRandomNumbers();
     }
 
     fun rightButtonOnClick(view: View)
     {
+        if (leftNum < rightNum)
+            score++;
+        else
+            score--;
+
+        updateScoreText();
         pickRandomNumbers();
     }
 
@@ -43,6 +55,13 @@ class MainActivity : AppCompatActivity() {
 
         leftButton.text = "$leftNum";
         rightButton.text = "$rightNum";
+    }
+
+    fun updateScoreText()
+    {
+        var scoreText = findViewById<TextView>(R.id.score_text);
+
+        scoreText.text = "Score: $score";
     }
 
 }
