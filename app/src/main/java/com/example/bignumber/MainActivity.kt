@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import org.w3c.dom.Text
 import java.util.Random
 
 class MainActivity : AppCompatActivity() {
@@ -19,6 +20,21 @@ class MainActivity : AppCompatActivity() {
 
 
         pickRandomNumbers();
+    }
+
+    fun radioButtonOnClick(view: View)
+    {
+        if (view.id == R.id.rb_one)
+        {
+            var tv = findViewById<TextView>(R.id.HelloText);
+            tv.text = "Radio Button One";
+        }
+
+        if (view.id == R.id.rb_two)
+        {
+            var tv = findViewById<TextView>(R.id.HelloText);
+            tv.text = "Radio Button Two";
+        }
     }
 
     fun leftButtonOnClick(view: View)
