@@ -6,21 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/HelloText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
+        android:background="#4CAF50"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,7 +21,7 @@
         android:id="@+id/textView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Big Number"
+        android:text="Learning Game"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="34sp"
@@ -40,50 +30,25 @@
         app:layout_constraintStart_toStartOf="@+id/toolbar"
         app:layout_constraintTop_toTopOf="@+id/toolbar" />
 
-    <Button
-        android:id="@+id/left_number_button"
+    <TextView
+        android:id="@+id/word_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="leftButtonOnClick"
-        android:text="5"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/right_number_button"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/right_number_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="72dp"
-        android:onClick="rightButtonOnClick"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <RadioGroup
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="radioButtonOnClick"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/HelloText"
+        android:layout_marginTop="30dp"
+        android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
-        <RadioButton
-            android:id="@+id/rb_one"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:onClick="radioButtonOnClick"
-            android:text="yes" />
-
-        <RadioButton
-            android:id="@+id/rb_two"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="radioButtonOnClick"
-            android:text="no" />
-    </RadioGroup>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/dynamic_def_list"
+        android:layout_width="409dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/word_id" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
