@@ -31,9 +31,25 @@ class MainActivity : AppCompatActivity() {
         pickRandomNumbers();
         setupList();
 
+        findViewById<TextView>(R.id.score_id).text = "score: 0"
+
         val def_list = findViewById<ListView>(R.id.dynamic_def_list);
         def_list.setOnItemClickListener { _, _, index, _ ->
-            dataDefList.removeAt(index);
+            var correctDef: String = ""
+
+            for(wd in wordDefinitions)
+                if (wd.word == findViewById<TextView>(R.id.word_id).text.toString())
+                    correctDef = wd.definition
+
+            if (correctDef == dataDefList[index])
+                score++;
+            else
+                score--;
+
+            findViewById<TextView>(R.id.score_id).text = "score: " + score.toString()
+
+            refreshWordAndDefinitions()
+
             myAdapter.notifyDataSetChanged();
         };
     }
@@ -71,7 +87,8 @@ class MainActivity : AppCompatActivity() {
 
     fun refreshWordAndDefinitions()
     {
-        findViewById<TextView>(R.id.word_id).text = wordDefinitions[0].word;
+        var rand = Random()
+        findViewById<TextView>(R.id.word_id).text = wordDefinitions[rand.nextInt(wordDefinitions.size)].word;
 
         dataDefList.clear();
 
