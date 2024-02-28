@@ -1,11 +1,13 @@
 package com.example.bignumber
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
+import android.widget.RadioButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import java.util.Random
@@ -13,6 +15,7 @@ import java.util.Random
 data class WordDefinition(val word: String, val definition: String);
 
 class MainActivity : AppCompatActivity() {
+    private val ADD_WORD_CODE = 1234 // 1-65535
     private var dataDefList = ArrayList<String>();
     private lateinit var myAdapter : ArrayAdapter<String>;
     private var leftNum :Int = 0;
@@ -25,7 +28,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
          // above init our app ui
-
 
         loadDefinitions();
         pickRandomNumbers();
@@ -52,6 +54,29 @@ class MainActivity : AppCompatActivity() {
 
             myAdapter.notifyDataSetChanged();
         };
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == ADD_WORD_CODE)
+        {
+            if (data != null) {
+                val word = data.getStringExtra("word")?:""
+                val def = data.getStringExtra("def")?:""
+
+                // (condition) ? true : false
+
+                wordDefinitions.add(WordDefinition(word, def));
+                refreshWordAndDefinitions()
+            }
+        }
+    }
+
+    fun addWordOnClick(view: View)
+    {
+        val myIntent = Intent(this, AddWordActivity::class.java);
+        startActivityForResult(myIntent, ADD_WORD_CODE)
     }
 
     fun setupList()
