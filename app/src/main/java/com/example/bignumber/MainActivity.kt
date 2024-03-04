@@ -3,6 +3,7 @@ package com.example.bignumber
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -18,9 +19,9 @@ class MainActivity : AppCompatActivity() {
     private val ADD_WORD_CODE = 1234 // 1-65535
     private var dataDefList = ArrayList<String>();
     private lateinit var myAdapter : ArrayAdapter<String>;
-    private var leftNum :Int = 0;
-    private var rightNum :Int = 0;
     private var score :Int = 0;
+    private var totalCorrect: Int = 0;
+    private var totalWrong: Int = 0;
 
     private var wordDefinitions = mutableListOf<WordDefinition>();
 
@@ -44,9 +45,15 @@ class MainActivity : AppCompatActivity() {
                     correctDef = wd.definition
 
             if (correctDef == dataDefList[index])
+            {
                 score++;
+                totalCorrect++;
+            }
             else
+            {
                 score--;
+                totalWrong++;
+            }
 
             findViewById<TextView>(R.id.score_id).text = "score: " + score.toString()
 
@@ -67,10 +74,20 @@ class MainActivity : AppCompatActivity() {
 
                 // (condition) ? true : false
 
-                wordDefinitions.add(WordDefinition(word, def));
+                wordDefinitions.add(WordDefinition(word, def))
                 refreshWordAndDefinitions()
+                myAdapter.notifyDataSetChanged()
             }
         }
+    }
+
+    fun statsOnClick(view: View)
+    {
+        val myIntent = Intent(this, StatsActivity::class.java)
+        myIntent.putExtra("score", score.toString())
+        myIntent.putExtra("totalCorrect", totalCorrect.toString())
+        myIntent.putExtra("totalWrong", totalWrong.toString())
+        startActivity(myIntent)
     }
 
     fun addWordOnClick(view: View)

@@ -45,11 +45,12 @@
         android:layout_width="409dp"
         android:layout_height="0dp"
         android:layout_marginTop="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/add_word_button"
+        app:layout_constraintBottom_toTopOf="@+id/stats_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/word_id">
+        app:layout_constraintTop_toBottomOf="@+id/word_id"
+        app:layout_constraintVertical_bias="0.0">
 
     </ListView>
 
@@ -70,6 +71,17 @@
         android:onClick="addWordOnClick"
         android:text="Add Word"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/stats_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:onClick="statsOnClick"
+        android:text="Stats"
+        app:layout_constraintBottom_toTopOf="@+id/add_word_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
