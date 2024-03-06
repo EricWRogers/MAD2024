@@ -1,17 +1,16 @@
 package com.example.bignumber
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.ListView
-import android.widget.RadioButton
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
+import androidx.appcompat.app.AppCompatActivity
 import java.util.Random
+import java.util.Scanner
+
 
 data class WordDefinition(val word: String, val definition: String);
 
@@ -29,6 +28,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
          // above init our app ui
+
+        Log.d("activity watch", "onCreate");
 
         loadDefinitions();
         pickRandomNumbers();
@@ -63,6 +64,25 @@ class MainActivity : AppCompatActivity() {
         };
     }
 
+    override fun onStart()
+    {
+        super.onStart();
+
+        Log.d("activity watch", "onStart");
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        Log.d("activity watch", "onResume");
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        Log.d("activity watch", "onDestroy");
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -90,6 +110,26 @@ class MainActivity : AppCompatActivity() {
         startActivity(myIntent)
     }
 
+    private fun loadPlayerData()
+    {
+        val reader = Scanner(resources.openRawResource(R.raw.game_data));
+        while(reader.hasNextLine())
+        {
+            val line = reader.nextLine();
+            val wd = line.split("|");
+            wordDefinitions.add(
+                WordDefinition(
+                    wd[0],
+                    wd[1])
+            );
+        }
+    }
+
+    private fun savePlayerData()
+    {
+
+    }
+
     fun addWordOnClick(view: View)
     {
         val myIntent = Intent(this, AddWordActivity::class.java);
@@ -108,23 +148,7 @@ class MainActivity : AppCompatActivity() {
 
     fun loadDefinitions()
     {
-        wordDefinitions.add(
-            WordDefinition(
-            "simple",
-            "easy to understand")
-        );
-
-        wordDefinitions.add(WordDefinition(
-            "game engine",
-            "library that manages the lifetime of the game"));
-
-        wordDefinitions.add(WordDefinition(
-            "kotlin",
-            "programming language"));
-
-        wordDefinitions.add(WordDefinition(
-            "Love2D",
-            "game framework for lua"));
+        loadPlayerData()
     }
 
     fun refreshWordAndDefinitions()
