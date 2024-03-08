@@ -1,5 +1,6 @@
 package com.example.bignumber
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +9,8 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import java.io.File
+import java.io.FileInputStream
 import java.util.Random
 import java.util.Scanner
 
@@ -97,6 +100,13 @@ class MainActivity : AppCompatActivity() {
                 wordDefinitions.add(WordDefinition(word, def))
                 refreshWordAndDefinitions()
                 myAdapter.notifyDataSetChanged()
+
+                val file = File(applicationContext.filesDir, "user_words")
+
+                if (file.exists() == false)
+                    file.createNewFile()
+
+                file.appendText("$word|$def\n");
             }
         }
     }
@@ -122,6 +132,24 @@ class MainActivity : AppCompatActivity() {
                     wd[0],
                     wd[1])
             );
+        }
+
+        val file = File(applicationContext.filesDir, "user_words")
+
+        if (file.exists()){
+            val readResult = FileInputStream(file)
+            val userReader = Scanner(readResult)
+
+            while(userReader.hasNextLine())
+            {
+                val line = userReader.nextLine();
+                val wd = line.split("|");
+                wordDefinitions.add(
+                    WordDefinition(
+                        wd[0],
+                        wd[1])
+                );
+            }
         }
     }
 
