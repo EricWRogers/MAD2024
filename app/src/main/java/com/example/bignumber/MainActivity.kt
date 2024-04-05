@@ -3,12 +3,14 @@ package com.example.bignumber
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.JsonWriter
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import org.json.JSONObject
 import java.io.File
 import java.io.FileInputStream
 import java.util.Random
@@ -33,6 +35,17 @@ class MainActivity : AppCompatActivity() {
          // above init our app ui
 
         Log.d("activity watch", "onCreate");
+
+        val exampleMap = emptyMap<String, String>().toMutableMap()
+        exampleMap["Eric"] = "Rogers"
+
+        val jsonWrite = JSONObject(exampleMap.toMap())
+
+        val jsonString = jsonWrite.toString()
+
+        Log.d("json", jsonString);
+
+        Log.d("json", jsonWrite.getString("Eric"));
 
         loadDefinitions();
         pickRandomNumbers();
