@@ -33,8 +33,8 @@ class RegisterActivity : AppCompatActivity() {
             val editTextEmail = findViewById<EditText>(R.id.email)
             val editTextPassword = findViewById<EditText>(R.id.password)
 
-            val email = editTextEmail.toString()
-            val password = editTextPassword.toString()
+            val email = editTextEmail.text.toString()
+            val password = editTextPassword.text.toString()
 
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->

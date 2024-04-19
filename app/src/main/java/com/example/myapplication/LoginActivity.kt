@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -32,8 +33,8 @@ class LoginActivity : AppCompatActivity() {
             val editTextEmail = findViewById<EditText>(R.id.email)
             val editTextPassword = findViewById<EditText>(R.id.password)
 
-            val email = editTextEmail.toString()
-            val password = editTextPassword.toString()
+            val email = editTextEmail.text.toString()
+            val password = editTextPassword.text.toString()
 
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
@@ -45,6 +46,7 @@ class LoginActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT,
                         ).show()
                     } else {
+                        Log.w("AUTH", "createUserWithEmail:failure", task.exception)
                         // If sign in fails, display a message to the user.
                         Toast.makeText(
                             baseContext,
