@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -12,7 +13,11 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.ktx.initialize
 
 class Login : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
@@ -27,7 +32,15 @@ class Login : AppCompatActivity() {
             insets
         }
 
+        Firebase.initialize(this)
         firebaseAuth = Firebase.auth
+
+        val registrationButton = findViewById<Button>(R.id.registration);
+        registrationButton.setOnClickListener {
+            val intent = Intent(this, Registration::class.java)
+            startActivity(intent)
+            finish() // this way you can't go back
+        }
 
         val loginButton = findViewById<Button>(R.id.login)
         loginButton.setOnClickListener {
@@ -48,7 +61,9 @@ class Login : AppCompatActivity() {
                             Toast.LENGTH_SHORT,
                         ).show()
                         //val user = auth.currentUser
-                        //updateUI(user)
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                        finish() // this way you can't go back
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w("AUTH", "signInWithEmail:failure", task.exception)
