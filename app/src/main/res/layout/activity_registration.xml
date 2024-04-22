@@ -46,4 +46,10 @@
         android:layout_height="wrap_content"
         android:text="@string/login" />
 
+    <TextView
+        android:id="@+id/error_text"
+        android:textColor="@color/red"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
 </LinearLayout>
