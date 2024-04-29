@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -31,7 +32,7 @@ data class MessagesDocument(
 
 class MainActivity : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var database : FirebaseFirestore
+    private lateinit var database: FirebaseFirestore
 
     private fun getConversationsDocument(messageId: String): Task<ConversationsDocument> {
         val messageRef = database.collection("conversations").document(messageId)
@@ -82,20 +83,35 @@ class MainActivity : AppCompatActivity() {
 
         database = Firebase.firestore
 
+        val searchButton = findViewById<Button>(R.id.search);
+        searchButton.setOnClickListener {
+            val intent = Intent(this, Search::class.java)
+            startActivity(intent)
+        }
+
         getConversationsDocument(user!!.uid)
             .addOnSuccessListener { conversationsDocument ->
                 // Handle success
-                Log.d("FIRESTORE", "conversations document retrieved successfully: $conversationsDocument")
+                Log.d(
+                    "FIRESTORE",
+                    "conversations document retrieved successfully: $conversationsDocument"
+                )
 
                 for (id in conversationsDocument.messages) {
                     getMessagesDocument(id)
                         .addOnSuccessListener { messagesDocument ->
                             // Handle success
-                            Log.d("FIRESTORE", "Conversations document retrieved successfully for user $id: $messagesDocument")
+                            Log.d(
+                                "FIRESTORE",
+                                "Conversations document retrieved successfully for user $id: $messagesDocument"
+                            )
                         }
                         .addOnFailureListener { exception ->
                             // Handle failure
-                            Log.e("FIRESTORE", "Error retrieving conversations document for user $id: $exception")
+                            Log.e(
+                                "FIRESTORE",
+                                "Error retrieving conversations document for user $id: $exception"
+                            )
                         }
                 }
             }
@@ -103,31 +119,5 @@ class MainActivity : AppCompatActivity() {
                 // Handle failure
                 Log.d("FIRESTORE", "Error retrieving message document: $exception")
             }
-
-        val button1 = findViewById<Button>(R.id.fragment_button_one);
-        button1.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putString("title", "Fragment 1 From Activity")
-
-            val myFragment = Fragment1()
-            replaceFragment(myFragment, bundle)
-        }
-
-        val button2 = findViewById<Button>(R.id.fragment_button_two);
-        button2.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putString("title", "Fragment 2 From Activity")
-
-            replaceFragment(Fragment2(), bundle)
-        }
-    }
-
-    private fun replaceFragment(fragment: Fragment, bundle: Bundle)
-    {
-        fragment.arguments = bundle
-        val fragmentManager = supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.fragment_container, fragment)
-        fragmentTransaction.commit()
     }
 }

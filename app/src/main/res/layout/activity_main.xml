@@ -7,28 +7,16 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:layout_width="match_parent"
-        android:layout_height="600dp"
-        android:id="@+id/fragment_container"/>
-
     <Button
-        android:layout_width="150dp"
-        android:layout_height="60dp"
-        android:id="@+id/fragment_button_one"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="50dp"
-        android:layout_marginLeft="30dp"
-        android:text="fragment 1"/>
-
-    <Button
-        android:layout_width="150dp"
-        android:layout_height="60dp"
-        android:id="@+id/fragment_button_two"
-        android:layout_alignParentBottom="true"
+        android:id="@+id/search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="30dp"
         android:layout_marginBottom="50dp"
-        android:layout_marginRight="30dp"
-        android:text="fragment 2"/>
+        android:contentDescription="Search"
+        android:theme="@style/Base.CardView"
+        app:icon="@android:drawable/ic_menu_search" />
 
 </RelativeLayout>
