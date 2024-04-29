@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.tasks.Task
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.Filter
@@ -27,19 +29,23 @@ class Search : AppCompatActivity() {
 
     private fun getUserInfo(messageId: String): Task<List<UserInfo>> {
         val users = mutableListOf<UserInfo>()
-        database.collection("users")
-            .whereLessThanOrEqualTo("email", messageId)
-            .get().continueWith() { documents ->
-            for (document in documents.result){
-                if (document.exists()) {
-                    val data = document.data
-                    val email = document.id
-                    val id = document.data.get("uid") as? String ?: ""
-
-                    users.add(UserInfo(email, id))
+        val query = database.collection("users")
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    if (document.id.contains(messageId)) {
+                        val email = document.id
+                        val id = document.getString("uid") ?: ""
+                        users.add(UserInfo(email, id))
+                    }
                 }
             }
-        }
+            .addOnFailureListener { exception ->
+                Log.e("FIRESTORE", "Error getting user documents: $exception")
+            }
+
+        // Return the task associated with the query
+        return query.continueWith { users }
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,15 +59,22 @@ class Search : AppCompatActivity() {
 
         val searchBox = findViewById<EditText>(R.id.search_box)
 
+        val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
+        val layoutManager = LinearLayoutManager(this)
+        recyclerView.layoutManager = layoutManager
+
+        val userInfoList = mutableListOf<UserInfo>() // Initialize an empty list
+        val adapter = UserInfoAdapter(userInfoList)
+        recyclerView.adapter = adapter
+
         searchBox.addTextChangedListener {
             val name = searchBox.text.toString()
 
             database = Firebase.firestore
 
             if (name.isEmpty() == false){
-                getUserInfo(name).addOnSuccessListener {userInfo ->
-                    Log.d("FIRESTORE",
-                        "UserInfo $userInfo")
+                getUserInfo(name).addOnSuccessListener {userInfoList ->
+                    adapter.updateList(userInfoList)
                 }
                     .addOnFailureListener {
                             exception ->
