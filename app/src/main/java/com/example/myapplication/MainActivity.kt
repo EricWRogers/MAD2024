@@ -7,6 +7,8 @@ import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.tasks.Task
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
@@ -34,6 +36,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var database: FirebaseFirestore
 
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: ConversationAdapter
+
     private fun getConversationsDocument(messageId: String): Task<ConversationsDocument> {
         val messageRef = database.collection("conversations").document(messageId)
 
@@ -50,7 +55,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun getMessagesDocument(documentId: String): Task<MessagesDocument> {
+    private fun getMessagesDocument(documentId: String): Task<MessagesDocument> {
         val docRef = database.collection("messages").document(documentId)
 
         return docRef.get().continueWith { task ->
@@ -89,31 +94,36 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        // create temp list of conversations
+
+
+        // create adapter
+
+
         getConversationsDocument(user!!.uid)
             .addOnSuccessListener { conversationsDocument ->
-                // Handle success
-                Log.d(
-                    "FIRESTORE",
-                    "conversations document retrieved successfully: $conversationsDocument"
-                )
+                // create conversation list
+                val con = mutableListOf<Conversation>()
 
                 for (id in conversationsDocument.messages) {
                     getMessagesDocument(id)
                         .addOnSuccessListener { messagesDocument ->
-                            // Handle success
+                            // add new elements to the list
+
                             Log.d(
                                 "FIRESTORE",
                                 "Conversations document retrieved successfully for user $id: $messagesDocument"
                             )
                         }
                         .addOnFailureListener { exception ->
-                            // Handle failure
                             Log.e(
                                 "FIRESTORE",
                                 "Error retrieving conversations document for user $id: $exception"
                             )
                         }
                 }
+
+
             }
             .addOnFailureListener { exception ->
                 // Handle failure
