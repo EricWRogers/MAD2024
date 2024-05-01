@@ -95,9 +95,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         // create temp list of conversations
-
+        val tempConversation = mutableListOf(
+            Conversation("Title", "Message")
+        )
 
         // create adapter
+        recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        adapter = ConversationAdapter(tempConversation)
+        recyclerView.adapter = adapter
 
 
         getConversationsDocument(user!!.uid)
@@ -109,7 +115,12 @@ class MainActivity : AppCompatActivity() {
                     getMessagesDocument(id)
                         .addOnSuccessListener { messagesDocument ->
                             // add new elements to the list
-
+                            con.add(
+                                Conversation(
+                                    messagesDocument.people[0],
+                                    messagesDocument.messages[messagesDocument.messages.size - 1].message)
+                            )
+                            adapter.updateList(con)
                             Log.d(
                                 "FIRESTORE",
                                 "Conversations document retrieved successfully for user $id: $messagesDocument"

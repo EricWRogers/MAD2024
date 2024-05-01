@@ -29,5 +29,10 @@ class ConversationAdapter(private val conversations: MutableList<Conversation>) 
     }
 
     // notify the adapter
-
+    fun updateList(newConversation : List<Conversation>)
+    {
+        conversations.clear()
+        conversations.addAll(newConversation)
+        notifyDataSetChanged()
+    }
 }
