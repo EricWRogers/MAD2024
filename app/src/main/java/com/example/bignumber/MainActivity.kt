@@ -1,14 +1,15 @@
 package com.example.bignumber
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.squareup.picasso.Picasso
 import java.io.File
 import java.io.FileInputStream
 import java.util.Random
@@ -33,6 +34,9 @@ class MainActivity : AppCompatActivity() {
          // above init our app ui
 
         Log.d("activity watch", "onCreate");
+
+        var iv = findViewById<ImageView>(R.id.web_image)
+        Picasso.get().load("https://raw.githubusercontent.com/EricWRogers/MAD2024/LearningGame/IMG_2594.jpg").into(iv)
 
         loadDefinitions();
         pickRandomNumbers();
